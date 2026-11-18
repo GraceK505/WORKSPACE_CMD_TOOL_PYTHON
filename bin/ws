@@ -1,0 +1,38 @@
+echo "========= WORKSPACE =========="
+echo "=============================="
+
+#!/usr/bin/env bash
+
+WORKSPACE="$HOME/TEST_workSpace"
+ACTION_DIR="$WORKSPACE/actions"
+
+ACTION="$1"
+shift
+
+if [ -z "$ACTION" ]; then 
+	echo "Usage : ws <action> [arguments...]"
+	exit 1
+fi
+
+# Bash
+
+if [ -f "$ACTION_DIR/$ACTION.sh" ]; then 
+	echo "Running Bash action: $ACTION"
+	
+	"$ACTION_DIR/$ACTION.sh" "$@"
+
+	exit $?
+fi
+
+# Python action
+
+if [ -f "$ACTION_DIR/$ACTION.py" ]; then 
+	echo "Running Python action: $ACTION"
+
+	python "$ACTION_DIR/$ACTION.py" "$@"
+	exit $?
+fi
+
+echo "Unknwon action: $ACTION"
+
+exit 1 
